@@ -15,18 +15,49 @@ def solve_puzzle(input, part):
 
 def solve_part_1(input):
     print('Solving puzzle part 1')
-
+    x, y = 0, 0
     file = open(input, 'r').read().split('\n')
-    
+    for line in file : 
+        x, y = handle_displacement_1(x, y, line)
+    print(' After {} displacement, the ship is in {} {}\nMultiplication is {}'.format(len(file),x,y,x*y))
 
 def solve_part_2(input):
     print('Solving puzzle part 2')
-
+    x, y, aim = 0, 0, 0
     file = open(input, 'r').read().split('\n')
-    for index in range(len(file)):
-        file[index] = int(file[index].split(' ')[0])
-    print(file)
+    for line in file : 
+        x, y , aim = handle_displacement_2(x, y, aim, line)
+    print(' After {} displacement, the ship is in {} {}\nMultiplication is {}'.format(len(file),x,y,x*y))
 
 
+def handle_displacement_1(x, y, line):
+    direction = line.split(' ')[0]
+    num = int(line.split(' ')[1])
+
+    if direction == 'forward':
+        x += num
+    elif direction == 'up':
+        y -= num
+    elif direction == 'down':
+        y += num
+    else:
+        print('ERROR : unknown direction')
+    return x, y
+
+def handle_displacement_2(x, y, aim, line):
+    direction = line.split(' ')[0]
+    num = int(line.split(' ')[1])
+
+    if direction == 'forward':
+        x += num
+        y += num*aim
+    elif direction == 'up':
+        aim -= num
+    elif direction == 'down':
+        aim += num
+    else:
+        print('ERROR : unknown direction')
+    return x, y, aim
+     
 if __name__ == "__main__":
     main()
