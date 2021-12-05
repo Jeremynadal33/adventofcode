@@ -10,7 +10,6 @@ def solve_puzzle(input, part):
     if part == 1 :
         solve_part_1(input)
     elif part == 2 :
-        print(input)
         solve_part_2(input)
 
 def solve_part_1(input):

@@ -1,4 +1,7 @@
 def handle_args(args):
+    '''
+    Used to provide a file name that will hit test or real input and part 1 or 2 of each day.
+    '''
     try :
         part = int(args[1])
     except : 
