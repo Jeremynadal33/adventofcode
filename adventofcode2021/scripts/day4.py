@@ -2,6 +2,7 @@
 import sys
 import numpy as np
 from functions import *
+import time
 
 def main():
     input_txt, part = handle_args(sys.argv)
@@ -20,20 +21,21 @@ def solve_part_1(input):
     boards = []
 
     for ind in range(1, len(file)):
-        boards.append(Bingo_board(handle_input_board(file[ind])))
+        boards.append(Bingo_board(handle_input_board(file[ind]), ind))
 
+    print('There are {} board'.format(len(boards)))
     for num in numbers:
         for board in boards:
-            print('\n\n\n')
-            print(board.board)
-            print(num)
-            board.add_pin(float(num))
-            if board.check_board():
-                print('Number is {}, sum of unmarked numbers is {}.\nMultiplication is {} '.format(board.calculate_board(), num, num*board.calculate_board()))        
-                break
+            if not board.has_won : 
+                board.add_pin(float(num))
+                if board.check_board():
+                    print('Board won on num ', num)
+                    # print('Number is {}, sum of unmarked numbers is {}.\nMultiplication is {} '.format(board.calculate_board(), num, num*board.calculate_board()))        
+                    time.sleep(1)
+                    
 
 def solve_part_2(input):
-    print('Solving puzzle part 2')
+    print('For this actual puzzle, part 1 and 2 are resolved at the same time, please enter 1.')
     file = open(input, 'r').read().split('\n')
 
 
@@ -45,12 +47,14 @@ def handle_input_board(str_board):
         return board
 
 class Bingo_board:
-    def __init__(self, board):
+    def __init__(self, board, ind):
         self.board = board
+        self.number = ind
         self.pinged_board = np.zeros((5,5), dtype=np.int8) #default is one and turn to 0 if ping
         self.has_won = False 
         self.axis = -1 #if won, either 0 or 1 to get the axis
         self.index = -1 #if won, index of the column/row of win
+        self.ranking = -1 #the placement of the board 
 
     def add_pin(self, number):
         x, y = np.where(self.board==number) 
@@ -60,8 +64,10 @@ class Bingo_board:
     def check_board(self):
         # check rows first
         for axis in [0, 1]:
+            #check where we have a line of 1s
             index = np.where( np.sum(self.pinged_board, axis = axis) == self.pinged_board.shape[0] )[0]
             if not index.shape[0] == 0:
+                print(self.pinged_board)
                 self.has_won = True
                 self.axis = axis
                 self.index = index[0]
@@ -69,9 +75,8 @@ class Bingo_board:
         return self.has_won
         
     def calculate_board(self):
-        print(np.sum(self.board, where=self.pinged_board==0))
+        print('Board {} won and its calculation is : {}'.format(self.number, np.sum(self.board, where=self.pinged_board==0)))
         return np.sum(self.board, where=self.pinged_board==0)
-
     
 
 if __name__ == "__main__":
