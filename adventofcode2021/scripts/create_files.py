@@ -25,6 +25,7 @@ if __name__ == "__main__":
 '''
 import sys
 import numpy as np
+import time 
 from functions import *
 
 def main():
@@ -39,12 +40,18 @@ def solve_puzzle(input, part):
 
 def solve_part_1(input):
     print('Solving puzzle part 1')
+    start = time.time()
     file = open(input, 'r').read().split('\\n')
+
+    end = time.time()
+    print('Elapsed in {} milisecondes'.format(1000*(end-start)))
 
 def solve_part_2(input):
     print('Solving puzzle part 2')
+    start = time.time()
     file = open(input, 'r').read().split('\\n')
-    
+    end = time.time()
+    print('Elapsed in {} milisecondes'.format(1000*(end-start)))
 if __name__ == "__main__":
     main()''')
         f.close()
