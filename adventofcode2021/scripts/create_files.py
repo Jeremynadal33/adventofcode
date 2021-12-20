@@ -29,22 +29,22 @@ import time
 from functions import *
 
 def main():
-    input_txt, part = handle_args(sys.argv)
-    solve_puzzle(input = input_txt, part = part)
+    input_file, part = handle_args(sys.argv)
+    solve_puzzle(input_file = input_file, part = part)
 
-def solve_puzzle(input, part):
+def solve_puzzle(input_file, part):
     if part == 1 :
-        solve_part_1(input)
+        solve_part_1(input_file)
     elif part == 2 :
-        solve_part_2(input)
+        solve_part_2(input_file)
 
-def solve_part_1(input):
+def solve_part_1(input_file):
     print('Solving puzzle part 1')
-    file = open(input, 'r').read().split('\\n')
+    file = open(input_file, 'r').read().split('\\n')
 
-def solve_part_2(input):
+def solve_part_2(input_file):
     print('Solving puzzle part 2')
-    file = open(input, 'r').read().split('\\n')
+    file = open(input_file, 'r').read().split('\\n')
     
 if __name__ == "__main__":
     start = time.time()
