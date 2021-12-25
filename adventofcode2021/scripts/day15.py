@@ -21,7 +21,7 @@ def solve_part_1(input_file):
     print('Solving puzzle part 1')
     matrix = np.genfromtxt(input_file, delimiter=1, dtype=int)
     
-    G = nx.Graph()
+    G = nx.DiGraph()
     labeldict = {}
     labeltest = []
     test = np.zeros((matrix.shape[0], matrix.shape[1]) )
@@ -114,6 +114,7 @@ def solve_part_1(input_file):
         summ.append(labeldict[pos])
     print(path)
     print(summ)
+    print(sum(summ))
 
 
     # labels = [ item for item in labeltest ]
