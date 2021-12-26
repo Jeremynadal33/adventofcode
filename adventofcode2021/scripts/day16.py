@@ -16,7 +16,7 @@ def solve_puzzle(input_file, part):
 
 def solve_part_1(input_file):
     print('Solving puzzle part 1')
-    file_hexa = open(input_file, 'r').read()
+    file_hexa = open(input_file, 'r').read().split('\n')[0]
     hex_dict = {
         '0' : '0000',
         '1' : '0001',
@@ -36,8 +36,11 @@ def solve_part_1(input_file):
         'F' : '1111'
     }
     file_bins = ''.join([hex_dict[char] for char in file_hexa])
-    
-    print('Answer is : ', handle_main(file_bins))
+    print(file_bins)
+    number, versions, types, sub_numbers = handle_main(file_bins)
+    print('Answer is : ', number, '\n Sum of versions is : ', versions)
+    print('For part 2, the numbers are : ', sub_numbers)
+    print(types)
     
 
 def solve_part_2(input_file):
@@ -49,16 +52,20 @@ def handle_main(bins):
     version = handle_binary(bins[:3])
     versions += version
     type = handle_binary(bins[3:6])
-    _, number, versions = handle_rest(6, type, bins, versions)
-    return number, versions
+    types = [type]
+    print('type : ' , type)
+    _, number, versions, types, sub_numbers  = handle_rest(6, type, bins, versions, types)
+    return number, versions, types, sub_numbers
 
 
-def handle_subpackets(index, subpackets, versions):
+def handle_subpackets(index, subpackets, versions, types, sub_numbers):
     version = handle_binary(subpackets[index : index + 3])
 
     versions += version
     type = handle_binary(subpackets[index + 3 : index + 6])
-    return handle_rest(index + 6, type, subpackets, versions)
+    types.append(type)
+    print('type : ' , type)
+    return handle_rest(index + 6, type, subpackets, versions, types, sub_numbers )
 
 def handle_binary(bin_number):
     decimal = 0
@@ -67,19 +74,20 @@ def handle_binary(bin_number):
         decimal += int(bin_number[-(num+1)])*2**num
     return decimal
 
-def handle_rest(index, type, file, versions):
+def handle_rest(index, type, file, versions, types, sub_numbers = []):
     if type == 4:
         literal = ''
         ended = False
-        while index + 5 < len(file) and not ended :
+        while index + 5 <= len(file) and not ended :
             literal += file[index+1:index+5]
             if file[index] == '0' :
                 ended = True
             index += 5
+        sub_numbers.append(handle_binary(literal))
         print('got literal : ', handle_binary(literal))
-        return index, handle_binary(literal), versions
+
+        return index, handle_binary(literal), versions, types, sub_numbers
     else:
-        
         if file[index] == '0' :
             print('heeeere')
             # total length of subpackets
@@ -91,9 +99,9 @@ def handle_rest(index, type, file, versions):
             borne = index + sub_length
             print(index, borne, sub_length)
             while index < borne :
-                index, to_add, versions = handle_subpackets(index, file, versions)
+                index, to_add, versions, types, sub_numbers = handle_subpackets(index, file, versions, types, sub_numbers)
                 summ += to_add 
-            return index, summ, versions
+            return index, summ, versions, types, sub_numbers
             
         elif file[index] == '1' :
             # number of subpackets
@@ -101,10 +109,14 @@ def handle_rest(index, type, file, versions):
             index += 12
             summ = 0 
             for _ in range(sub_length):
-                index, to_add, versions = handle_subpackets(index, file, versions)
+                index, to_add, versions, types, sub_numbers = handle_subpackets(index, file, versions, types, sub_numbers)
                 summ += to_add 
-            return index, summ, versions
+            return index, summ, versions, types, sub_numbers
 
+
+def solve_final(types, numbers):
+    # every type other than 4 is an operator 
+    pass
 
 if __name__ == "__main__":
     start = time.time()
