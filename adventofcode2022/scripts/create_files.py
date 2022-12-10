@@ -1,8 +1,8 @@
 import sys
 import os
+import requests
 
-def toto():
-    print(1)
+year = '2022'
     
 if __name__ == "__main__":
     prefixes = ['test', 'input']
@@ -17,6 +17,15 @@ if __name__ == "__main__":
             filename = '../inputs/' + prefix + '_day' + str(day) + '_' + part + '.txt'
             if os.path.exists(filename):
                 print('File {} already exist'.format(filename))
+            elif prefix == 'input':
+                try :
+                    session_token = {"session" : open("../../session_token.txt").read() }
+                    input_url = f"https://adventofcode.com/{year}/day/{str(day)}/input"
+                    response = requests.get(url = input_url, cookies=session_token)
+                    open(filename, 'w').write(response.text)
+                except:
+                    print(f"Could not retrieve input data for day {str(day)}")
+                    open(filename, "w")
             else:
                 open(filename, "w")
     
