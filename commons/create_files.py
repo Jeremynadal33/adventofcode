@@ -14,16 +14,20 @@ def create_inputs_files():
             logging.info('File {} already exist'.format(file_name))
         elif file_type == "input":
             try :
-                session_token = {"session" : SESSION_TOKEN }
+                cookie = {"session" : SESSION_TOKEN }
                 input_url = f"https://adventofcode.com/{args.YEAR}/day/{args.DAY}/input"
-                response = requests.get(url = input_url, cookies=session_token)
-                open(file_name, 'w').write(response.text)
+                response = requests.get(url = input_url, cookies=cookie).text
+                if response[-1:] == '\n':
+                    open(file_name, 'w').write(response[:-1])
+                else:
+                    open(file_name, 'w').write(response)
                 logging.info(f"Created input file {file_name}")
             except:
                 logging.info(f"Could not retrieve input data for day {args.DAY}. Create an empty file instead.")
                 open(file_name, "w")
         else:
             open(file_name, "w")
+            logging.info(f"Created test file {file_name}")
 
 
 def create_bootstrap_script():
@@ -40,6 +44,8 @@ def create_bootstrap_script():
         f = open(script_name, "w")
         f.write(open("commons/template_script.py", "r").read())
         f.close()
+        
+        logging.info(f"Created script file {script_name}")
     
 
 
