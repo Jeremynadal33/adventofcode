@@ -6,7 +6,7 @@ def main():
     solve_puzzle(input_file = file_path, part = args.PART)
 
 def solve_puzzle(input_file, part):
-    logging.info(f"Solving puzzle part {args.DAY}")
+    logging.info(f"Solving puzzle part {args.PART}")
     if part == 1 :
         solve_part_1(input_file)
     elif part == 2 :

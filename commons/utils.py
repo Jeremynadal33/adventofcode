@@ -6,7 +6,7 @@ import argparse
 
 import logging
 
-logging.root.setLevel(os.environ.get("LOG_LEVEL", "INFO"))
+logging.root.setLevel(os.environ.get("LOG_LEVEL", "WARNING"))
 
 SESSION_TOKEN = os.getenv("advent_of_code_session_token")
 if SESSION_TOKEN is None:
