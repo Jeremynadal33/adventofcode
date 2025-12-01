@@ -20,15 +20,15 @@ def solve_puzzle(input_file, part):
 
 
 def solve_part_1(input_file):
-    file = open(input_file, "r").read().split("\n")
+    open(input_file, "r").read().split("\n")
 
 
 def solve_part_2(input_file):
-    file = open(input_file, "r").read().split("\n")
+    open(input_file, "r").read().split("\n")
 
 
 if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    logging.info(f"Elapsed in {1000*(end-start)} secondes")
+    logging.info(f"Elapsed in {1000 * (end - start)} secondes")

@@ -1,28 +1,29 @@
 import sys
 import os
+
 if __name__ == "__main__":
-    prefixes = ['test', 'input']
-    parts = ['1', '2']
-    try :
+    prefixes = ["test", "input"]
+    parts = ["1", "2"]
+    try:
         day = int(sys.argv[1])
     except:
-        print('ERROR : no day was given or wrong number')
+        print("ERROR : no day was given or wrong number")
 
     for prefix in prefixes:
         for part in parts:
-            filename = '../inputs/' + prefix + '_day' + str(day) + '_' + part + '.txt'
+            filename = "../inputs/" + prefix + "_day" + str(day) + "_" + part + ".txt"
             if os.path.exists(filename):
-                print('File {} already exist'.format(filename))
+                print("File {} already exist".format(filename))
             else:
                 open(filename, "w")
-    
-    scriptname = 'day' + str(day) + '.py'
+
+    scriptname = "day" + str(day) + ".py"
     if os.path.exists(scriptname):
-        print('File {} already exist'.format(scriptname))
+        print("File {} already exist".format(scriptname))
     else:
         f = open(scriptname, "w")
         f.write(
-'''
+            """
 import sys
 import numpy as np
 import time 
@@ -50,5 +51,6 @@ if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    print('Elapsed in {} milisecondes'.format(1000*(end-start)))''')
+    print('Elapsed in {} milisecondes'.format(1000*(end-start)))"""
+        )
         f.close()

@@ -47,7 +47,7 @@ def solve_part_2(input_file):
     for line in file:
         nums = ""
         for i in range(0, len(line)):
-            sub_line = line[i:i+5]  # We can look at only 5 since
+            sub_line = line[i : i + 5]  # We can look at only 5 since
             for key, value in num_letters.items():
                 if sub_line.startswith(value):
                     nums += str(key)
@@ -62,4 +62,4 @@ if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    logging.info(f"Elapsed in {1000*(end-start)} secondes")
+    logging.info(f"Elapsed in {1000 * (end - start)} secondes")

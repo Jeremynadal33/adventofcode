@@ -1,19 +1,14 @@
-
 import sys
-import numpy as np
-import time 
 from functions import *
 from collections import defaultdict
 
-'''
+"""
 we store in sizes the path of a dir and the size of its direct files
 in children, a list of the dirs inside him
-'''
+"""
 
 
-from collections import defaultdict
 from functools import lru_cache
-from pprint import pprint
 
 input_file, part = handle_args(sys.argv)
 
@@ -75,4 +70,3 @@ for abspath in dir_sizes:
         ans += dfs(abspath)
 
 print(ans)
-
