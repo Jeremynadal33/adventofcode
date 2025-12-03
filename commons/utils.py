@@ -8,11 +8,6 @@ import logging
 
 logging.root.setLevel(os.environ.get("LOG_LEVEL", "INFO"))
 
-SESSION_TOKEN = os.getenv("advent_of_code_session_token")
-if SESSION_TOKEN is None:
-    logging.error("ERROR: SESSION_TOKEN was not provided")
-    exit()
-
 parser = argparse.ArgumentParser()
 parser.add_argument(
     "--year",
@@ -49,6 +44,14 @@ parser.add_argument(
     default=1,
     type=int,
 )
+
+parser.add_argument(
+        "--submit",
+        help="Whether to submit the answer after solving the puzzle.",
+        action="store_true",
+        required=False,
+        default=False,
+    )
 
 args = parser.parse_args()
 

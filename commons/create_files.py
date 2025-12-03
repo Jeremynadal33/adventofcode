@@ -1,6 +1,8 @@
-from utils import *
+from utils import args, logging
+from advent_of_code_client import AdventOfCodeClient
 
-import requests
+import os
+
 
 def create_inputs_files():
     folder_name = f"adventofcode{args.YEAR}"
@@ -19,12 +21,12 @@ def create_inputs_files():
             logging.info("File {} already exist".format(file_name))
         elif file_type == "input":
             try:
-                session_token = {"session": SESSION_TOKEN}
-                input_url = f"https://adventofcode.com/{args.YEAR}/day/{args.DAY}/input"
-                response = requests.get(url=input_url, cookies=session_token)
-                open(file_name, "w").write(response.text)
+                client = AdventOfCodeClient(args.YEAR)
+                response = client.get_input(args.DAY)
+                open(file_name, "w").write(response)
                 logging.info(f"Created input file {file_name}")
             except:
+                print("wtf")
                 logging.info(
                     f"Could not retrieve input data for day {args.DAY}. Create an empty file instead."
                 )
