@@ -9,6 +9,9 @@ dependencies = [
 ]
 
 [dependency-groups]
+fancy = [
+    "streamlit>=1.52.0",
+]
 test = [
     "pytest>=9.0.1",
     "ruff>=0.14.7",
