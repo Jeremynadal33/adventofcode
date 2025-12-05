@@ -156,10 +156,9 @@ def turn_txt_to_png():
 
 
 if __name__ == "__main__":
-    # start = time.time()
-    # main()
-    # end = time.time()
-    # logging.info(f"Elapsed in {1000 * (end - start)} secondes")
+    start = time.time()
+    main()
+    end = time.time()
+    logging.info(f"Elapsed in {1000 * (end - start)} secondes")
     # test_nb_around()
-    # test_image()
     turn_txt_to_png()
