@@ -6,12 +6,9 @@ import re
 
 class GridDay6(Grid):
     
-    @property
-    def col_delimiter(self) -> str:
-        return ","
     
-    def __init__(self, file_path) -> None:
-        super().__init__(file_path)
+    def __init__(self, file_path, col_delimiter = ",") -> None:
+        super().__init__(file_path, col_delimiter= col_delimiter)
 
     def preprocess(self):
         lines = open(self.file_path, 'r').read().split('\n')

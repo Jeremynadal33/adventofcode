@@ -31,4 +31,4 @@ if __name__ == "__main__":
     start = time.time()
     main()
     end = time.time()
-    logging.info(f"Elapsed in {1000 * (end - start)} secondes")
+    logging.info(f"Elapsed in {end - start} secondes")
