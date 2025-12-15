@@ -1,10 +1,10 @@
 import time
 from commons.utils import args, logging
 from commons.Grid import Grid
-from math import sqrt
-import networkx as nx
+from commons.UndirectedGraph import UndirectedGraph
 
-import matplotlib.pyplot as plt
+from math import sqrt
+
 
 def main():
     file_path = (
@@ -29,8 +29,9 @@ def solve_part_1(input_file):
     distances = make_distance_dictionary(coords)
     sorted_distances = dict(sorted(distances.items(), key=lambda item: item[1]))
 
-    G = nx.Graph()
-    for i in range(coords.grid.shape[0]): G.add_node(i)
+    G = UndirectedGraph()
+    for i in range(coords.grid.shape[0]): 
+        G.add_node(i)
 
     max_iterations = 10 if args.INPUT == "TEST" else 1000
     for index, key in enumerate(sorted_distances):
@@ -42,18 +43,19 @@ def solve_part_1(input_file):
         point1_idx, point2_idx = key
         G.add_edge(point1_idx, point2_idx)
 
-        logging.debug(f"Is connected: {nx.is_connected(G)}")
+        # logging.debug(f"Is connected: {G.is_connected()}")
 
     logging.debug(f"Graph nodes: {G.nodes}")
-    logging.debug(f"Graph edges: {G.edges}")
+    # logging.debug(f"Graph edges: {G.edges}")
 
-    logging.info(f"Number of clusters: {nx.number_connected_components(G)}")
+    components = G.connected_components()
 
+    logging.info(f"Number of clusters: {len(components)}")
 
     result = 1
 
     cluster_sizes = []
-    for sub in nx.connected_components(G):
+    for sub in components:
         logging.info(f"Cluster: {sub}")
         cluster_sizes.append(len(sub))
 
@@ -86,12 +88,13 @@ def get_distance(coord1, coord2):
 
 def solve_part_2(input_file):
     coords = Grid(input_file, col_delimiter=",", item_type=int)
-    logging.info(f"Coordinates loaded: {coords}")
+    logging.debug(f"Coordinates loaded: {coords}")
     distances = make_distance_dictionary(coords)
     sorted_distances = dict(sorted(distances.items(), key=lambda item: item[1]))
 
-    G = nx.Graph()
-    for i in range(coords.grid.shape[0]): G.add_node(i)
+    G = UndirectedGraph()
+    for i in range(coords.grid.shape[0]): 
+        G.add_node(i)
 
     iterations = 0
     for index, key in enumerate(sorted_distances):
@@ -99,16 +102,13 @@ def solve_part_2(input_file):
         # Connect points coords into existing clusters
         point1_idx, point2_idx = key
         G.add_edge(point1_idx, point2_idx)
-        logging.debug(f"Is connected: {nx.is_connected(G)}")
+        logging.debug(f"Is connected: {G.is_connected()}")
         iterations += 1
-        if nx.is_connected(G):
+        if G.is_connected():
             logging.info(f"Graph became connected after {iterations} iterations connecting {point1_idx} : {coords.grid[point1_idx]} and {point2_idx} : {coords.grid[point2_idx]}")
             logging.info(f"Final answer is then {coords.grid[point1_idx][0] * coords.grid[point2_idx][0]}")
             break
 
-
-
-    logging.info(f"Number of clusters: {nx.number_connected_components(G)}")
 
 if __name__ == "__main__":
     start = time.time()
