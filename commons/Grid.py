@@ -2,19 +2,23 @@ import numpy as np
 from abc import ABC
 
 class Grid(ABC):
-    def __init__(self, file_path) -> None:
+    def __init__(self, file_path, col_delimiter = "", row_delimiter = "\n", item_type = str) -> None:
         self.file_path = file_path
+        self.item_type = item_type
+
+        self.col_delimiter = col_delimiter
+        self.row_delimiter = row_delimiter
 
         self.grid = self.parse()
 
     @property
-    def row_delimiter(self) -> str:
-        return "\n"
+    def repr_delimiter(self) -> str:
+        return " "
     
-    @property
-    def col_delimiter(self) -> str:
-        return ""
-
+    def copy(self):
+        new_grid = Grid(self.file_path)
+        return new_grid
+    
     def preprocess(self):
         return open(self.file_path, 'r').read()
 
@@ -22,7 +26,7 @@ class Grid(ABC):
         file = self.preprocess()
 
         rows = file.split(self.row_delimiter)
-        matrix = [t.split(self.col_delimiter) if self.col_delimiter != "" else list(t) for t in rows if t]
+        matrix = [[self.item_type(item) for item in t.split(self.col_delimiter)] if self.col_delimiter != "" else list(self.item_type(t)) for t in rows if t]
         return np.array(matrix)
 
         
@@ -30,10 +34,20 @@ class Grid(ABC):
         i, j = position
         return self.grid[i, j]
     
+    def __setitem__(self, position, value):
+        i, j = position
+        self.grid[i, j] = value
+    
+    def __repr__(self) -> str:
+        repr_str = ""
+        for row in self.grid:
+            if self.item_type != str:
+                row = map(str, row)
+            repr_str += self.repr_delimiter.join(row) + "\n"
+        return repr_str
     
     def display(self):
-        for row in self.grid:
-            print(' '.join(row))
+        print(self.__repr__())
     
     def get_neighbors(self, i, j):
         neighbors = []
